@@ -20,17 +20,17 @@
 
 (require 'package)
 (add-to-list
-        'package-archives
-        '("melpa" . "https://melpa.org/packages/") t)
+ 'package-archives
+ '("melpa" . "https://melpa.org/packages/") t)
 
 ;;; Load Emacs Lisp packages, and activate them.
 (package-initialize)
 
 ;;; use-package to simplify the config file
 (unless (package-installed-p 'use-package)
-   (package-refresh-contents)
-   (package-install 'use-package)
-   )
+  (package-refresh-contents)
+  (package-install 'use-package)
+  )
 
 (require 'use-package)
 
@@ -39,14 +39,14 @@
 ;;; The configuration of org-directory for notes saving.
 (setq org-directory
       (concat
-        (getenv "HOME")
-        "/Documents/Dropbox/notes/")
-)
+       (getenv "HOME")
+       "/Documents/Dropbox/notes/")
+      )
 
 ;; Theme configurationn.
 (use-package exotica-theme
   :config (load-theme 'exotica t)
-)
+  )
 
 ;; Keyboard-centric user interface
 (setq inhibit-startup-message t)
@@ -63,12 +63,12 @@
 ;; Define the init file
 (setq custom-file
       (expand-file-name "custom.el" user-emacs-directory)
-)
+      )
 
 ;;; If the file exists, load it.
 (when (file-exists-p custom-file)
-    (load custom-file)
-)
+  (load custom-file)
+  )
 
 ;;; Set the sursor type to "|"
 (setq cursor-type 'bar)
@@ -84,19 +84,19 @@
    ("C-x C-r" . helm-recentf) ;; Select recently saved files
    ("C-c i"   . helm-imenu) ;; Select document heading
    ("M-y"     . helm-show-kill-ring) ;; Show the kill ring
-  :map helm-map
+   :map helm-map
    ("C-z" . helm-select-action)
    ("<tab>" . helm-execute-persistent-action)
+   )
   )
-)
 
 (use-package which-key
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 0.5
-          which-key-idle-secondary-delay 0.5)
-    (which-key-setup-side-window-bottom)
-)
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 0.5
+        which-key-idle-secondary-delay 0.5)
+  (which-key-setup-side-window-bottom)
+  )
 
 ;; Auto completion
 (use-package company
@@ -119,7 +119,7 @@
 					; (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 130)
 					; (set-face-attribute 'fixed-pitch nil :font "DejaVu Sans Mono")
 					; (set-face-attribute 'variable-pitch nil :font "DejaVu Sans")
-)
+  )
 
 (require 'solaire-mode)
 (add-hook 'mixed-pitch-mode-hook #'solaire-mode-reset)
@@ -128,7 +128,7 @@
 (use-package company-posframe
   :config
   (company-posframe-mode 1)
-)
+  )
 
 ;;; Improve org mode looks
 (setq org-startup-indented t
@@ -136,12 +136,12 @@
       org-hide-emphasis-markers t
       org-startup-with-inline-images t
       org-image-actual-width '(500)
-)
+      )
 
 ;;; Show hidden emphasis markers
 (use-package org-appear
   :hook (org-mode . org-appear-mode)
-)
+  )
 
 ;; Nice bullets
 (use-package org-superstar
@@ -149,8 +149,8 @@
   (setq org-superstar-special-todo-items t)
   (add-hook 'org-mode-hook
 	    (lambda () (org-superstar-mode 1))
+	    )
   )
-)
 
 ;;; Increase size of LaTeX fragment previews
 (plist-put org-format-latex-options :scale 2)
@@ -178,42 +178,42 @@
         (text-scale-decrease 2))))
   :bind
   (("<f9>" . distraction-free))
-)
+  )
 
 ;;; Sensible line breaking
 (add-hook 'text-mode-hook 'visual-line-mode)
-  
+
 ;;; Overwrite selected text
 (delete-selection-mode t)
-  
+
 ;;; Scroll to the first and last line of the buffer
 (setq scroll-error-top-bottom t)
 
 (setq org-capture-templates
-    `(("t" "Tasks / Projects")
-      ("tt" "Task" entry (file+olp "~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org" "Inbox")
-           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+      `(("t" "Tasks / Projects")
+	("tt" "Task" entry (file+olp "~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org" "Inbox")
+         "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
 
-      ("j" "Journal Entries")
-      ("jj" "Journal" entry
-           (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-           "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
-           ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
-           :clock-in :clock-resume
-           :empty-lines 1)
-      ("jm" "Meeting" entry
-           (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-           "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
-           :clock-in :clock-resume
-           :empty-lines 1)
+	("j" "Journal Entries")
+	("jj" "Journal" entry
+         (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+         "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+         ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+         :clock-in :clock-resume
+         :empty-lines 1)
+	("jm" "Meeting" entry
+         (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+         "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+         :clock-in :clock-resume
+         :empty-lines 1)
 
-      ("w" "Workflows")
-      ("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
-           "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+	("w" "Workflows")
+	("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+         "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
 
-      ("m" "Metrics Capture")
-      ("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
-       "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+	("m" "Metrics Capture")
+	("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
+	 "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
 
 
 ;;; Org-Mode initial setup
@@ -222,33 +222,33 @@
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
    ("C-c c" . org-capture)
+   )
   )
-)
 
 ;;; From org-roam-protocol
 
-(setq org-roam-capture-ref-templates '(
-("r" "Roam Ref" plain ;;;(function org-roam-capture--get-point)
- "%?"
- :if-new
- (file+head "${slug}.org"
-            "#+title: ${title}
-#+date: %u
-#+lastmod:
-#+roam_key: r
-#+roam_alias: \"Roam Ref\"
-#+roam_tags: Roam
+;; (setq org-roam-capture-ref-templates '(
+;; ("r" "Roam Ref" plain ;;;(function org-roam-capture--get-point)
+;;  "%?"
+;;  :if-new
+;;  (file+head "${slug}.org"
+;;             "#+title: ${title}
+;; #+date: %u
+;; #+lastmod:
+;; #+roam_key: r
+;; #+roam_alias: \"Roam Ref\"
+;; #+roam_tags: Roam
 
-* ${title}
-:PROPERTIES:
-:URL: ${ref}
-:CREATED: %U
-:END:
+;; * ${title}
+;; :PROPERTIES:
+;; :URL: ${ref}
+;; :CREATED: %U
+;; :END:
 
-${body}")
- :unnarrowed t)
-)
-)
+;; ${body}")
+;;  :unnarrowed t)
+;; )
+;; )
 
 ;;; Org-Roam capture templates.
 (setq org-roam-capture-templates
@@ -257,14 +257,14 @@ ${body}")
          (file+head "${slug}.org"
                     "#+title: ${title}\n#+date: %u\n#+lastmod: \n\n")
          :immediate-finish t)
-("r" "Roam Ref" plain ;;;(function org-roam-capture--get-point)
- (file "~/.emacs.d/roam-notes-templates/ref-roam-template.org")
- :if-new
- (file+head "${slug}.org" "")
- :immediate-finish t)
+	("r" "Roam Ref" plain ;;;(function org-roam-capture--get-point)
+	 (file "~/.emacs.d/roam-notes-templates/ref-roam-template.org")
+	 :if-new
+	 (file+head "${slug}.org" "")
+	 :immediate-finish t)
 	)
       time-stamp-start "#\\+lastmod: [\t]*"
-)
+      )
 
 ;; Org-Roam basic configuration
 (use-package org-roam
@@ -281,27 +281,11 @@ ${body}")
       (file+head "${slug}.org"
                  "#+title: ${title}\n#+date: %u\n#+lastmod: \n\n")
       :immediate-finish t)
-
      ("r" "Roam Ref" plain ;;;(function org-roam-capture--get-point)
-      "%?"
+      (file "~/.emacs.d/roam-notes-templates/ref-roam-template.org")
       :if-new
-      (file+head "${slug}.org"
-		 "#+title: ${title}
-#+date: %u
-#+lastmod:
-#+roam_key: r
-#+roam_alias: \"Roam Ref\"
-#+roam_tags: Roam
-
-* ${title}
-:PROPERTIES:
-:URL: ${ref}
-:CREATED: %U
-:END:
-
-${body}")
+      (file+head "${slug}.org" "")
       :immediate-finish t)
-     
      ("l" "programming language" plain
       "* Characteristics\n\n- Family: %?\n- Inspired by: \n\n* Reference:\n\n"
       :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
@@ -365,7 +349,7 @@ ${body}")
 
 (defun org-roam-node-insert-immediate (arg &rest args)
   (interactive "P")
-  ;;; For inmediate smmothing insertion of a node
+;;; For inmediate smmothing insertion of a node
   (let ((args (push arg args))
         (org-roam-capture-templates
 	 (list
@@ -375,16 +359,16 @@ ${body}")
 	 )
 	)
     (apply #'org-roam-node-insert args)
-   )
-)
+    )
+  )
 
 
 (defun my/org-roam-filter-by-tag (tag-name)
   ;;; Check if the node has the specified tag
   (lambda (node)
     (member tag-name (org-roam-node-tags node))
+    )
   )
-)
 
 (defun my/org-roam-list-notes-by-tag (tag-name)
   (mapcar #'org-roam-node-file
@@ -392,8 +376,8 @@ ${body}")
            (my/org-roam-filter-by-tag tag-name)
            (org-roam-node-list)
 	   )
-   )
-)
+	  )
+  )
 
 
 (defun my/org-roam-refresh-agenda-list ()
@@ -410,13 +394,12 @@ ${body}")
   ;; Remove the hook since it was added temporarily
   (remove-hook 'org-capture-after-finalize-hook #'my/org-roam-project-finalize-hook)
  ;;; Add project file to the agenda list if the capture was confirmed
- (unless org-note-abort
-   (with-current-buffer (org-capture-get :buffer)
-    (add-to-list 'org-agenda-files (buffer-file-name))
-   )
- )
-)
-
+  (unless org-note-abort
+    (with-current-buffer (org-capture-get :buffer)
+      (add-to-list 'org-agenda-files (buffer-file-name))
+      )
+    )
+  )
 
 
 (defun my/org-roam-find-project()
@@ -451,7 +434,7 @@ ${body}")
   (interactive "sSelect directory: ")
   (org-roam-capture- :node (org-roam-node-create)
                      :templates '(("i" "inbox" plain "* %?"
-                                  :if-new (file+head (concat buffer-file-name (concat "/" (file-name-as-directory directory) "Inbox.org")) "#+title: Inbox\n")))))
+                                   :if-new (file+head (concat buffer-file-name (concat "/" (file-name-as-directory directory) "Inbox.org")) "#+title: Inbox\n")))))
 
 
 
@@ -474,8 +457,8 @@ ${body}")
   (interactive)
   (let ((org-refile-keep t) ;; Set this to nil to delete the original!
         (org-roam-dailies-capture-templates
-          '(("t" "tasks" entry "%?"
-             :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
+         '(("t" "tasks" entry "%?"
+            :if-new (file+head+olp "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n" ("Tasks")))))
         (org-after-refile-insert-hook #'save-buffer)
         today-file
         pos)
@@ -497,15 +480,15 @@ ${body}")
 
 
 (use-package helm-bibtex
-     :config
-     (setq bibtex-completion-bibliography bib-files-directory
-           bibtex-completion-library-path pdf-files-directory
-           bibtex-completion-pdf-field "File"
-           bibtex-completion-notes-path org-directory
-           bibtex-completion-additional-search-fields '(keywords))
-     :bind
-     (("C-c n B" . helm-bibtex))
-)
+  :config
+  (setq bibtex-completion-bibliography bib-files-directory
+        bibtex-completion-library-path pdf-files-directory
+        bibtex-completion-pdf-field "File"
+        bibtex-completion-notes-path org-directory
+        bibtex-completion-additional-search-fields '(keywords))
+  :bind
+  (("C-c n B" . helm-bibtex))
+  )
 
 ;;; For html, css and javascript modes.
 (use-package web-mode
@@ -526,7 +509,7 @@ ${body}")
   :ensure t
   :config
   (projectile-mode 1)
-)
+  )
 
 
 (use-package magit
@@ -541,26 +524,26 @@ ${body}")
   :config
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-)
+  )
 
 
 (use-package expand-region
   :ensure t
   :bind ("C-=" . er/expand-region)
-)
+  )
 
 
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode)
-)
+  )
 
 
 (use-package company-quickhelp
   :ensure t
   :config
   (company-quickhelp-mode 1)
-)
+  )
 
 (use-package ag
   :ensure t)
@@ -572,8 +555,8 @@ ${body}")
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
          ("C-c C-<" . mc/mark-all-like-this)
+	 )
   )
-)
 
 
 (use-package treemacs-icons-dired
@@ -581,7 +564,7 @@ ${body}")
   :ensure t
   :config
   (treemacs-icons-dired-mode)
-)
+  )
 
 
 (global-set-key (kbd "C-x t t") 'treemacs)
@@ -591,13 +574,13 @@ ${body}")
   :ensure t
   :init
   (global-flycheck-mode)
-)
+  )
 
 
 (use-package eglot
   :ensure t
   :hook (prog-mode . eglot-ensure)
-)
+  )
 
 ;;; The erver for IDE functionality
 (require 'eglot)
@@ -619,69 +602,69 @@ ${body}")
 (require 'codeium)
 (with-eval-after-load 'codeium
   ;; use globally
-    (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
-    ;; or on a hook
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
+  (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+  ;; or on a hook
+  ;; (add-hook 'python-mode-hook
+  ;;     (lambda ()
+  ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
 
-    ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local completion-at-point-functions
-    ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
-    ;; an async company-backend is coming soon!
+  ;; if you want multiple completion backends, use cape (https://github.com/minad/cape):
+  ;; (add-hook 'python-mode-hook
+  ;;     (lambda ()
+  ;;         (setq-local completion-at-point-functions
+  ;;             (list (cape-super-capf #'codeium-completion-at-point #'lsp-completion-at-point)))))
+  ;; an async company-backend is coming soon!
 
-    ;; codeium-completion-at-point is autoloaded, but you can
-    ;; optionally set a timer, which might speed up things as the
-    ;; codeium local language server takes ~0.2s to start up
-    ;; (add-hook 'emacs-startup-hook
-    ;;  (lambda () (run-with-timer 0.1 nil #'codeium-init)))
+  ;; codeium-completion-at-point is autoloaded, but you can
+  ;; optionally set a timer, which might speed up things as the
+  ;; codeium local language server takes ~0.2s to start up
+  ;; (add-hook 'emacs-startup-hook
+  ;;  (lambda () (run-with-timer 0.1 nil #'codeium-init)))
 
-    ;; :defer t ;; lazy loading, if you want
-    :config
-    (setq use-dialog-box nil) ;; do not use popup boxes
+  ;; :defer t ;; lazy loading, if you want
+  :config
+  (setq use-dialog-box nil) ;; do not use popup boxes
 
-    ;; if you don't want to use customize to save the api-key
-    ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
+  ;; if you don't want to use customize to save the api-key
+  ;; (setq codeium/metadata/api_key "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
 
-    ;; get codeium status in the modeline
-    (setq codeium-mode-line-enable
+  ;; get codeium status in the modeline
+  (setq codeium-mode-line-enable
         (lambda (api) (not (memq api '(CancelRequest Heartbeat AcceptCompletion)))))
-    (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
-    ;; alternatively for a more extensive mode-line
-    ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
+  (add-to-list 'mode-line-format '(:eval (car-safe codeium-mode-line)) t)
+  ;; alternatively for a more extensive mode-line
+  ;; (add-to-list 'mode-line-format '(-50 "" codeium-mode-line) t)
 
-    ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
-    (setq codeium-api-enabled
+  ;; use M-x codeium-diagnose to see apis/fields that would be sent to the local language server
+  (setq codeium-api-enabled
         (lambda (api)
-            (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
-    ;; you can also set a config for a single buffer like this:
-    ;; (add-hook 'python-mode-hook
-    ;;     (lambda ()
-    ;;         (setq-local codeium/editor_options/tab_size 4)))
+          (memq api '(GetCompletions Heartbeat CancelRequest GetAuthToken RegisterUser auth-redirect AcceptCompletion))))
+  ;; you can also set a config for a single buffer like this:
+  ;; (add-hook 'python-mode-hook
+  ;;     (lambda ()
+  ;;         (setq-local codeium/editor_options/tab_size 4)))
 
-    ;; You can overwrite all the codeium configs!
-    ;; for example, we recommend limiting the string sent to codeium for better performance
-    (defun my-codeium/document/text ()
-        (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
-    ;; if you change the text, you should also change the cursor_offset
-    ;; warning: this is measured by UTF-8 encoded bytes
-    (defun my-codeium/document/cursor_offset ()
-        (codeium-utf8-byte-length
-            (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
-    (setq codeium/document/text 'my-codeium/document/text)
-    (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset)
-)
+  ;; You can overwrite all the codeium configs!
+  ;; for example, we recommend limiting the string sent to codeium for better performance
+  (defun my-codeium/document/text ()
+    (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
+  ;; if you change the text, you should also change the cursor_offset
+  ;; warning: this is measured by UTF-8 encoded bytes
+  (defun my-codeium/document/cursor_offset ()
+    (codeium-utf8-byte-length
+     (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
+  (setq codeium/document/text 'my-codeium/document/text)
+  (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset)
+  )
 
 
-;(use-package codeium
-    ;; if you use straight
-    ;; :straight '(:type git :host github :repo "Exafunction/codeium.el")
-    ;; otherwise, make sure that the codeium.el file is on load-path
+					;(use-package codeium
+;; if you use straight
+;; :straight '(:type git :host github :repo "Exafunction/codeium.el")
+;; otherwise, make sure that the codeium.el file is on load-path
 
- ;   :init
-    ;; use globally
+					;   :init
+;; use globally
 ;;(add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
 
 (prefer-coding-system 'utf-8)
@@ -695,12 +678,12 @@ ${body}")
   :config
   ;; Your org-noter config ........
   (require 'org-noter-pdftools)
-)
+  )
 
 
 (use-package org-pdftools
   :hook (org-mode . org-pdftools-setup-link)
-)
+  )
 
 
 (use-package org-noter-pdftools
@@ -745,23 +728,23 @@ With a prefix ARG, remove start location."
 (use-package nov
   :init
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-)
+  )
 
 
 
 ;; MINIBUFFER COMPLETION
 
-  ;; Enable vertico
-  ;; (use-package vertico
-  ;;   :init
-  ;;   (vertico-mode)
-  ;;   :custom
-  ;;   (vertico-sort-function 'vertico-sort-history-alpha))
+;; Enable vertico
+;; (use-package vertico
+;;   :init
+;;   (vertico-mode)
+;;   :custom
+;;   (vertico-sort-function 'vertico-sort-history-alpha))
 
-  ;; Persist history over Emacs restarts.
-  ;; (use-package savehist
-  ;;   :init
-  ;;   (savehist-mode))
+;; Persist history over Emacs restarts.
+;; (use-package savehist
+;;   :init
+;;   (savehist-mode))
 
 (use-package org-download
   :after org
@@ -769,7 +752,7 @@ With a prefix ARG, remove start location."
   (:map org-mode-map
         (("s-Y" . org-download-screenshot)
          ("s-y" . org-download-yank))
-  )
+	)
   )
 
 (require 'org-roam-protocol)
@@ -792,4 +775,3 @@ With a prefix ARG, remove start location."
       '((java-mode . (:host "localhost" :port 8090))))
 
 
-;;; .emacs.el ends here:
